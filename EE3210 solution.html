@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EE3210 solution</title>
+<style>
+:root{color-scheme:light;--ink:#162f31;--muted:#4e6664;--line:#cbd6cf;--green:#006b58;--bg:#f6f6ee;--panel:#fffef8;--amber:#a4421c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,"Helvetica Neue",Arial,sans-serif}main{max-width:1130px;margin:auto;padding:30px clamp(16px,4vw,54px) 56px}header{display:flex;align-items:center;gap:12px;padding-bottom:18px;border-bottom:1px solid var(--line);font-size:.85rem;font-weight:650}.mark{width:37px;height:28px;background:var(--green);border-radius:6px}.mark path{stroke:#fff;stroke-width:2.5;fill:none}h1{font:normal clamp(42px,6vw,72px)/1.05 Georgia,serif;letter-spacing:-.05em;margin:30px 0 10px}h2,h3,p{margin:0}h2{font:normal 28px/1.25 Georgia,serif}h3{font-size:.9rem}p{color:var(--muted)}.intro{margin-bottom:24px}.tabs,.jumps,.answers{display:flex;flex-wrap:wrap;gap:8px}button{cursor:pointer;font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:8px 13px}button:hover{border-color:var(--green)}button:focus-visible,input:focus-visible{outline:3px solid #bd5926;outline-offset:3px}.tabs button{font-weight:600}.tabs [aria-pressed=true]{background:var(--ink);color:white;border-color:var(--ink)}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(235px,.46fr);margin-top:16px;gap:14px}.plotcard,.readout,.quiz{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:clamp(16px,2.5vw,28px)}.titlebar{display:flex;align-items:center;justify-content:space-between;gap:8px}.badge{font:600 .84rem ui-monospace,monospace;color:var(--green);background:#e9f2e9;padding:4px 8px;border-radius:5px}.equation{margin-top:5px}.graph{width:100%;height:auto;display:block;margin-top:5px;touch-action:pan-y;cursor:crosshair}.legend{font-size:.79rem;color:var(--muted);margin-top:4px}.filled,.open{width:9px;height:9px;border:2px solid var(--green);display:inline-block;border-radius:50%;margin-right:3px}.filled{background:var(--green)}.open{margin-left:12px}.control{border-top:1px solid var(--line);margin-top:15px;padding-top:16px}.sliderlabel{display:flex;align-items:center;justify-content:space-between}.sliderlabel label{font-weight:650}.sliderlabel output{font:600 1.05rem ui-monospace,monospace;color:var(--amber)}input[type=range]{width:100%;margin:16px 0;accent-color:var(--green)}.jumps button,.answers button{font-size:.87rem;padding:6px 11px}.readout{background:#eaf1e7}.readout h2{margin-bottom:14px}.steps{list-style:none;padding:0;margin:0}.steps li{padding:10px 0;border-top:1px solid #c9d7c7}.steps small{display:block;color:var(--muted)}.steps strong{font:600 1.05rem/1.6 ui-monospace,Menlo,monospace}.reason{margin-top:12px;color:var(--ink);font-size:.94rem}.quiz{margin-top:14px}.quiz h2{margin-bottom:8px}.answers{margin:12px 0}.answers button{min-width:44px}.answers [aria-pressed=true]{background:var(--ink);color:white}.feedback{min-height:1.5em;color:var(--green);font-weight:600}.feedback.retry{color:var(--amber)}@media(max-width:690px){main{padding-top:16px}.layout{grid-template-columns:1fr}.tabs button{font-size:.87rem;padding:8px 10px}.graph{min-height:160px}.readout h2{margin-bottom:8px}}
+.guide{margin-top:16px;padding:clamp(16px,2.5vw,28px);background:#fffef8;border:1px solid var(--line);border-left:4px solid var(--green);border-radius:12px}.guide header{padding:0;border:0;justify-content:space-between}.guide h2{font:normal clamp(22px,3vw,29px) Georgia,serif}.guide .math{display:block;color:var(--green);font:600 clamp(16px,2.5vw,22px)/1.4 ui-monospace,Menlo,monospace;margin:.6em 0;overflow-wrap:anywhere}.guide footer{display:flex;gap:8px;margin-top:12px}.guide button:disabled{opacity:.45;cursor:default}.guide #forward{background:var(--ink);color:white}
+#questions{display:flex;flex-wrap:wrap;gap:7px;padding-bottom:18px;border-bottom:1px solid var(--line)}#questions button{font-weight:650;font-size:.9rem}#questions [aria-pressed=true]{background:var(--green);color:white}.heading{margin:24px 0 18px}.heading h2{font-size:clamp(27px,4vw,38px);margin-bottom:6px}.subhead{margin:12px 0}.chapter[hidden]{display:none}.chapter details{margin-top:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}.chapter summary{padding:15px clamp(12px,3vw,24px);cursor:pointer;color:var(--ink);font-weight:650}.chapter summary:focus-visible{outline:3px solid var(--amber)}.working{padding:0 clamp(12px,3vw,24px) 18px}.working p{margin:.6rem 0}.working h3{margin:1rem 0 .25rem;font-size:1.03rem}.eq,.result,.experiment output{padding:10px 12px;border-radius:6px;background:#f0f3eb;display:block;overflow-wrap:anywhere}.result{background:#e4f0e5;color:#12513f;font-weight:650;margin:10px 0}.eq{font-family:Georgia,serif;font-size:1.1rem}.working table{width:100%;border-collapse:collapse;margin:.8rem 0}.working td,.working th{text-align:left;padding:.4em;border-bottom:1px solid var(--line)}.experiment{margin:14px 0;padding:14px;border:1px dashed #8ba599;border-radius:7px}.experiment label{display:block;font-weight:650}.experiment output{font:500 .94rem/1.6 ui-monospace,Menlo,monospace;white-space:pre-line}.experiment select{padding:6px 14px;margin:6px 0 12px}.wavefig{display:block;max-width:620px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px}.subhead{font-size:1rem}details[open] summary{border-bottom:1px solid var(--line);margin-bottom:12px}@media(max-width:480px){.working td,.working th{padding:.3em .2em;font-size:.9rem}#questions button{font-size:.8rem}} .signalplot{margin:12px 0 5px;padding:10px 10px 3px;border:1px solid #cddad0;border-radius:9px;background:#fffef8}.signalplot figcaption{font-weight:650;color:var(--ink);font-size:.93rem;margin-left:5px}.signalplot svg{display:block;width:100%;height:auto;max-height:245px}.signalplot text{font:13px Arial,sans-serif;fill:#3f5655}.teaching{padding:8px 16px;border-left:3px solid #91bba7;margin:14px 0;background:#f4f6ef}.teaching h3{margin-top:3px}.teaching p{margin:.45em 0}.plots2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tracekey{font-size:.9rem}.tracekey b{color:#006b58}.tracekey em{color:#a4421c;font-style:normal;font-weight:650}.tracekey strong{color:#416ba0}.plotstack .signalplot{max-width:690px;margin-inline:auto}.plotstack svg{max-height:165px}.experiment input[type=range]{cursor:pointer}@media(max-width:790px){.plots2{grid-template-columns:1fr}.signalplot{padding-inline:3px}.signalplot text{font-size:16px}.plotstack svg{max-height:none}}.spatial{margin:14px 0 20px;padding:clamp(14px,2.5vw,26px);border-radius:16px;border:1px solid #a7bbab;background:#f7faf2}.spatialhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px}.spatialhead h3{font:normal clamp(21px,3vw,30px)/1.2 Georgia,serif}.spatialhead span{font-size:.8rem;color:#42645b}.spatial p{margin:.5rem 0}.viewport{display:block;width:100%;max-height:390px;border:1px solid var(--line);border-radius:10px;background:radial-gradient(ellipse at 48% 57%,#e0eee3,#fffef8 81%);touch-action:none;cursor:grab}.viewport:active{cursor:grabbing}.viewport:focus-visible{outline:3px solid var(--amber)}.viewport text{font:600 12px Arial,sans-serif;paint-order:stroke;stroke:#f7faf2;stroke-width:3px;stroke-linejoin:round}.spatialkey{font-size:.9rem}.spaceControls,.coord{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap}.spaceControls small{color:var(--muted)}.coord{margin:14px 0 5px}.coord label{font-size:.9rem;font-weight:650}.coord select{padding:5px 8px}.coord input[type=range]{flex:1;min-width:150px}.spatial output{display:block;white-space:pre-line;padding:.65em .9em;border-left:3px solid #c66b3d;background:#eaf0e7;color:var(--ink)}@media(max-width:550px){.viewport text{font-size:17px}.spatial{padding:12px}.spaceControls button{font-size:.83rem}} </style></head><body><main>
+<header><svg class="mark" viewBox="0 0 37 28" aria-hidden="true"><path d="M4 19h8V9h11v10h10"/></svg><span>EE3210 &nbsp; / &nbsp; Signals and Systems</span></header>
+<h1>EE3210 solution</h1><p class="intro">Test 1 · Semester A 2026–2027. Choose a question and move its controls to connect each calculation to the graph.</p>
+<nav id="questions" aria-label="Test questions"><button aria-pressed="true">Q1 · Pulses</button><button aria-pressed="false">Q2 · Recurrence</button><button aria-pressed="false">Q3 · Convolution</button><button aria-pressed="false">Q4 · Fourier series</button><button aria-pressed="false">Q5 · Frequency response</button><button aria-pressed="false">Q6 · Impulse response</button></nav><section class="chapter" data-q="1"><div class="heading"><h2>Q1 · Pulses and energy</h2><p>Start with x(t) = u(t − 2) − u(t − 1). Use the graph to see what happens at each switching time.</p></div><section class="spatial" id="spatial1" aria-label="Question 1 interactive 3D model"><div class="spatialhead"><h3>From pulse height to energy</h3><span>3D model</span></div><p>Look at the two time profiles edge-on. Squaring lifts a negative pulse above zero. Both profiles have exactly the same width. The depth separates the two profiles and has no role in the energy calculation.</p>
+ <svg class="viewport" viewBox="0 0 660 370" tabindex="0" role="img" aria-label="From pulse height to energy. Rotate with arrow keys or drag."></svg><p class="spatialkey">Green slab · original signal. Amber slab · height squared.</p>
+ <div class="spaceControls"><button type="button" class="altCamera">View from above</button><button type="button" class="resetCamera">Reset view</button><small>Drag to rotate · arrow keys when focused</small></div>
+ <div class="coord"><label for="coordinate1">Signal</label><select class="coordinate" id="coordinate1"><option value="0">x(t)</option><option value="1">y(t)</option><option value="2">g(t)</option><option value="3">h(t)</option></select></div><output for="coordinate1"></output></section>
+<h3 class="subhead">(a) Sketch x(t) and (b) sketch g(t) and h(t)</h3><nav class="tabs" aria-label="Choose a signal"></nav>
+<section class="guide" aria-label="Worked solution"><div aria-live="polite"><header><h2 id="guideTitle"></h2><span id="position"></span></header><strong class="math" id="equation"></strong><p id="explain"></p></div><footer><button id="back">Back</button><button id="forward">Next step →</button></footer></section>
+<div class="layout"><section class="plotcard" aria-labelledby="plotTitle"><div class="titlebar"><h2 id="plotTitle"></h2><span class="badge">u(0) = 1</span></div><p class="equation" id="formula"></p>
+<svg class="graph" id="plot" viewBox="0 0 600 240" role="img" aria-label="Signal amplitude plotted against time"></svg>
+<div class="legend"><span class="filled"></span> Included value <span class="open"></span> Excluded value</div>
+<div class="control"><div class="sliderlabel"><label for="time">Explore time</label><output id="clock" for="time"></output></div><input id="time" type="range" step="0.05"><div class="jumps" aria-label="Jump to a time"></div></div></section>
+<aside class="readout"><h2>At this time</h2><ol class="steps"></ol><p class="reason"></p></aside></div>
+<section class="quiz"><h2>Check yourself</h2><p id="prompt"></p><div class="answers"></div><p class="feedback" aria-live="polite"></p></section>
+
+<details open><summary>(c) Build y(t) from the jumps in Figure 1</summary><div class="working"><p>Read the heights from left to right: 0, 1, 2, 1, 0. Each change becomes one shifted step. A rise adds a step and a fall subtracts one.</p>
+<div class="experiment"><label for="jumpCount">Build Figure 1 one jump at a time</label><input id="jumpCount" type="range" min="0" max="4" value="2"><figure class="signalplot"><figcaption>Adding shifted steps</figcaption><svg id="jumpPlot" role="img" aria-label="Running sum of the selected shifted unit steps, drawn from time zero to five." viewBox="0 0 650 222"></svg></figure><output id="jumpText" for="jumpCount"></output><p>Slide from 0 to 4 terms. After the first two, the graph stays at 2. The step at 3 lowers it by one, and the last step brings it back to zero.</p></div><table><tr><th>Time</th><th>Change</th><th>Term to add</th></tr><tr><td>1</td><td>0 → 1</td><td>+u(t − 1)</td></tr><tr><td>2</td><td>1 → 2</td><td>+u(t − 2)</td></tr><tr><td>3</td><td>2 → 1</td><td>−u(t − 3)</td></tr><tr><td>4</td><td>1 → 0</td><td>−u(t − 4)</td></tr></table>
+<div class="result">y(t) = u(t − 1) + u(t − 2) − u(t − 3) − u(t − 4)</div><p>Check t = 2.5. The first two steps are on, so y(2.5) = 1 + 1 − 0 − 0 = 2.</p></div></details>
+<details><summary>(d) Calculate the four energies</summary><div class="working"><p>Energy is E = ∫ |s(t)|² dt over all time. For a flat piece of a graph, square its height and multiply by its width. Add the contributions of all pieces.</p><div class="experiment"><label for="energyChoice">Choose a signal to square</label><select id="energyChoice"><option value="x">x(t)</option><option value="y" selected>y(t)</option><option value="g">g(t)</option><option value="h">h(t)</option></select><figure class="signalplot"><figcaption>Energy is the shaded area under the squared signal</figcaption><svg id="energyPlot" role="img" aria-label="Rectangles show squared amplitudes over their corresponding time intervals." viewBox="0 0 650 222"></svg></figure><output id="energyText" for="energyChoice"></output><p>Choose y(t). Between 2 and 3 its height is 2. After squaring, that middle rectangle is 4 units high and 1 unit wide. It contributes 4 of the total 6 units of energy.</p></div><table><tr><th>Signal</th><th>Height² × width</th><th>Energy</th></tr><tr><td>x</td><td>(−1)² × 1</td><td>1</td></tr><tr><td>y</td><td>1² × 1 + 2² × 1 + 1² × 1</td><td>6</td></tr><tr><td>g</td><td>2² × 0.5</td><td>2</td></tr><tr><td>h</td><td>(−1)² × 2</td><td>2</td></tr></table><p>For g, the pulse gets twice as tall and half as wide. Squaring its height gives a factor of four, so its energy doubles.</p></div></details></section>
+<section class="chapter" data-q="2" hidden><div class="heading"><h2>Q2 · Difference equation</h2><p>2y[n] + 4y[n − 1] = 6x[n − 2], with x[n] = u[n + 5].</p></div><section class="spatial" id="spatial2" aria-label="Question 2 interactive 3D model"><div class="spatialhead"><h3>A recurrence in three coordinates</h3><span>3D model</span></div><p>Each point records the sample index, previous output and current output. Move one step forward. The old current value becomes the new previous value. The next height then follows from the recurrence.</p>
+ <svg class="viewport" viewBox="0 0 660 370" tabindex="0" role="img" aria-label="A recurrence in three coordinates. Rotate with arrow keys or drag."></svg><p class="spatialkey">Green path · successive samples. Amber point · selected sample.</p>
+ <div class="spaceControls"><button type="button" class="altCamera">View from above</button><button type="button" class="resetCamera">Reset view</button><small>Drag to rotate · arrow keys when focused</small></div>
+ <div class="coord"><label for="coordinate2">Output index n</label><input type="range" class="coordinate" id="coordinate2" min="-4" max="1" step="1" value="-2"></div><output for="coordinate2"></output></section>
+<details open><summary>(a) Find y[n] for every integer n</summary><div class="working"><h3>Find the first affected sample</h3><p>Divide the equation by 2 and move the previous output to the right. The delayed input is x[n − 2] = u[(n − 2) + 5] = u[n + 3]. It first turns on at n = −3.</p><div class="eq">y[n] = 3u[n + 3] − 2y[n − 1]</div><p>The causal LTI response starts at zero before the delayed input arrives. At n = −3 the previous output is zero, so y[−3] = 3. At the next sample, y[−2] = 3 − 2(3) = −3.</p>
+<div class="experiment"><label for="recN">Choose a sample n</label><input type="range" id="recN" min="-5" max="4" value="-2"><output id="recOut" for="recN"></output><figure class="signalplot"><figcaption>Build the output sample by sample</figcaption><svg id="recPlot" role="img" aria-label="Discrete output sequence up to the selected index. The newest sample is highlighted." viewBox="0 0 650 222"></svg></figure><p class="tracekey">Move right from n = −3. <em>Orange</em> is the newest output and <b>green</b> shows earlier samples. The vertical scale adjusts as the sequence grows. Each stem represents one integer sample.</p></div>
+<div class="teaching"><h3>Why does the first output arrive at −3?</h3><p>The original input switches on at −5. The equation reads the input two samples late. At n = −4 it reads x[−6] = 0. At n = −3 it finally reads x[−5] = 1.</p><p>Calculate one more sample by hand. At n = −1 the previous output is −3. Multiplying it by −2 gives +6. Adding the current input contribution gives y[−1] = 6 + 3 = 9.</p></div><h3>Turn the pattern into a formula</h3><p>From n = −3 onward, each new output is 3 minus twice the previous one. Expanding the recurrence gives 3 at the first sample, 3[1 + (−2)] at the second, then 3[1 + (−2) + (−2)²]. At index n there are n + 4 terms.</p><div class="eq">3 ∑<sub>m=0</sub><sup>n+3</sup> (−2)<sup>m</sup> = 3[1 − (−2)<sup>n+4</sup>]/[1 − (−2)]</div>
+<p>For example, n = −1 gives three terms: 3[1 − 2 + 4] = 9. In general, the last exponent is n + 3. Counting exponents from zero gives n + 4 terms, which is why the geometric-series formula contains the exponent n + 4.</p><div class="result">y[n] = 0 for n &lt; −3, and y[n] = 1 − (−2)<sup>n+4</sup> for n ≥ −3.</div><p>Requested samples: y[−4] = 0, y[−2] = −3, and y[0] = −15.</p></div></details>
+<details><summary>(b) Decide whether the system is stable</summary><div class="working"><p>BIBO stability requires every bounded input to give a bounded output. Our input takes only the values 0 and 1. Its output starts 3, −3, 9, −15, 33, … and the term (−2)<sup>n+4</sup> grows in magnitude without limit.</p><div class="result">The system is BIBO unstable. This bounded input gives an unbounded output.</div></div></details></section>
+<section class="chapter" data-q="3" hidden><div class="heading"><h2>Q3 · Discrete convolution</h2><p>x[−1], x[0], x[1], x[2] = 1, −1, 3, −3. The three samples h[−2], h[−1], h[0] = 1, 1, −2. All other input samples are zero.</p></div><section class="spatial" id="spatial3" aria-label="Question 3 interactive 3D model"><div class="spatialhead"><h3>Convolution on an index grid</h3><span>3D model</span></div><p>One column is one multiplication, x[k] × h[m]. Rotate toward the top view to see the diagonal k + m = n. Then tilt down to read the signed heights. Add only the amber columns.</p>
+ <svg class="viewport" viewBox="0 0 660 370" tabindex="0" role="img" aria-label="Convolution on an index grid. Rotate with arrow keys or drag."></svg><p class="spatialkey">Amber columns · pairs used at this n. Muted columns · other pairs.</p>
+ <div class="spaceControls"><button type="button" class="altCamera">View from above</button><button type="button" class="resetCamera">Reset view</button><small>Drag to rotate · arrow keys when focused</small></div>
+ <div class="coord"><label for="coordinate3">Output index n = k + m</label><input type="range" class="coordinate" id="coordinate3" min="-4" max="3" step="1" value="0"></div><output for="coordinate3"></output></section>
+<details open><summary>Find the first and last output indices</summary><div class="working"><p>In convolution, x[k] multiplied by h[m] contributes to the output at n = k + m. The earliest pair gives −1 + (−2) = −3. The latest gives 2 + 0 = 2. Outside this range no pair contributes.</p></div></details>
+<details open><summary>Multiply the pairs at each index</summary><div class="working"><div class="eq">y[n] = ∑<sub>k</sub> x[k] h[n − k]</div><p>Choose n. For each nonzero x[k], look up h at the missing index n − k. Multiply, then add. For example, at n = 0 the pairs are (0, 0), (1, −1) and (2, −2).</p><div class="teaching"><h3>Why does the middle sequence slide?</h3><p>At n = 0 the middle graph is h[−k]. Its samples −2, 1, 1 sit at k = 0, 1, 2. Increase n to 1 and those same heights move one position right. The top graph stays fixed.</p><p>Try n = −1. The three products are −2, −1 and +3. Even with three overlapping samples, the sum is zero. At n = −4 the sum is also zero, because there are no overlapping samples at all.</p></div><div class="experiment"><label for="convN">Choose output index n</label><input type="range" min="-4" max="3" id="convN" value="0"><div class="plotstack"><figure class="signalplot"><figcaption>1 · Keep x[k] fixed</figcaption><svg id="convX" role="img" aria-label="Discrete samples of x at fixed k indices." viewBox="0 0 650 222"></svg></figure><figure class="signalplot"><figcaption>2 · Flip and slide h</figcaption><svg id="convH" role="img" aria-label="The samples of h[n−k] as a function of k for the selected output index n." viewBox="0 0 650 222"></svg></figure><figure class="signalplot"><figcaption>3 · Multiply the aligned heights</figcaption><svg id="convProduct" role="img" aria-label="Pointwise products of the two sequences at each k." viewBox="0 0 650 222"></svg></figure></div><p>Read the three graphs vertically at the same k. Multiply the top height by the middle height to get the bottom one. Add the bottom heights to find y[n].</p><output id="convOut" for="convN"></output></div>
+<table><tr><th>n</th><td>−3</td><td>−2</td><td>−1</td><td>0</td><td>1</td><td>2</td></tr><tr><th>y[n]</th><td>1</td><td>0</td><td>0</td><td>2</td><td>−9</td><td>6</td></tr></table><div class="result">y[n] = 0 everywhere else. The zeros at −2 and −1 come from cancellation.</div></div></details></section>
+<section class="chapter" data-q="4" hidden><div class="heading"><h2>Q4 · Periodic waveform and Fourier series</h2><p>Read one cycle from Figure 2, starting at t = 0. Its three successive heights are −4, 0 and 2.</p></div><section class="spatial" id="spatial4" aria-label="Question 4 interactive 3D model"><div class="spatialhead"><h3>One Fourier harmonic in motion</h3><span>3D model</span></div><p>Look along the time axis: the rotating tip traces a circle. Look from the side: its real coordinate traces a sinusoid. The conjugate harmonic has the opposite imaginary part, so adding the pair doubles the real part.</p>
+ <svg class="viewport" viewBox="0 0 660 370" tabindex="0" role="img" aria-label="One Fourier harmonic in motion. Rotate with arrow keys or drag."></svg><p class="spatialkey">Green helix · complex harmonic. Amber curve · real part on the Im = 0 plane.</p>
+ <div class="spaceControls"><button type="button" class="altCamera">Look along time axis</button><button type="button" class="resetCamera">Reset view</button><small>Drag to rotate · arrow keys when focused</small></div>
+ <div class="coord"><label for="coordinate4">Time t (seconds)</label><input type="range" class="coordinate" id="coordinate4" min="0" max="4" step=".05" value="0"></div><output for="coordinate4"></output></section>
+<svg viewBox="0 0 570 116" class="wavefig" role="img" aria-label="Waveform repeats every four seconds. Heights minus four on zero to one, zero on one to two and two on two to four."><path d="M30 50H540 M60 10V100" fill="none" stroke="#9aa9a1"/><path d="M32 30H60V90H115V50H170V30H280V90H335V50H390V30H500V90H534" fill="none" stroke="#006b58" stroke-width="3"/><g font-family="Arial" font-size="12" fill="#253d3a"><text x="16" y="34">2</text><text x="8" y="93">−4</text><text x="57" y="111">0</text><text x="112" y="111">1</text><text x="167" y="111">2</text><text x="277" y="111">4</text><text x="332" y="111">5</text><text x="387" y="111">6</text><text x="497" y="111">8</text><text x="540" y="68">t</text></g></svg>
+<details open><summary>(a) Read the period and frequency</summary><div class="working"><p>The drop from +2 to −4 is at t = 0, then at 4, then at 8. Each pair of consecutive drops encloses one complete pattern.</p><div class="result">T₀ = 4 s · f₀ = 1/T₀ = ¼ Hz · Ω₀ = 2π/T₀ = π/2 rad/s.</div></div></details>
+<details><summary>(b) Compute average power over one period</summary><div class="working"><p>Square each height and weight it by its duration. The first two pieces last one second each, and the positive piece lasts two seconds. Divide by the four-second period.</p><div class="result">P = [ (−4)² × 1 + 0² × 1 + 2² × 2 ] / 4 = 24 / 4 = 6.</div></div></details>
+<details open><summary>(c) Derive every Fourier coefficient</summary><div class="working"><h3>Handle k = 0 first</h3><p>In the complex series x(t) = ∑ a<sub>k</sub>e<sup>jkΩ₀t</sup>, the coefficient a₀ is the average height. The negative area is −4 × 1 and the positive area is 2 × 2.</p><div class="result">a₀ = (−4 + 0 + 4) / 4 = 0.</div><h3>For k ≠ 0, integrate the two nonzero pieces</h3><p>Let b = kπ/2. The middle interval contributes zero. Pull each constant height outside its integral.</p><div class="eq">a<sub>k</sub> = ¼ [ −4 ∫₀¹ e<sup>−jbt</sup> dt + 2 ∫₂⁴ e<sup>−jbt</sup> dt ]</div>
+<p>Integrating the exponential gives e<sup>−jbt</sup>/(−jb). Evaluating at the upper and lower limits gives the following two terms.</p><div class="eq">a<sub>k</sub> = [−4(1 − e<sup>−jb</sup>) + 2(e<sup>−j2b</sup> − e<sup>−j4b</sup>)] / (4jb)</div><p>For an integer k, e<sup>−j4b</sup> = e<sup>−j2πk</sup> = 1 and e<sup>−j2b</sup> = (−1)<sup>k</sup>. Substitute b and simplify.</p><div class="result">a<sub>k</sub> = [−3 + 2e<sup>−jkπ/2</sup> + (−1)<sup>k</sup>] / (jkπ), for every integer k ≠ 0.</div>
+<div class="teaching"><h3>Work through the first harmonic, k = 1</h3><p>Here b = π/2. On the interval from 2 to 4, the exponential at t = 2 is e<sup>−jπ</sup> = −1. At t = 4 it is e<sup>−j2π</sup> = 1. Thus ∫₂⁴ e<sup>−jbt</sup>dt = (−1 − 1)/(jb). The separate factor 2 multiplying this integral is the <b>height of the waveform</b> from 2 to 4.</p><p>In the final expression use e<sup>−jπ/2</sup> = −j. The numerator becomes −3 − 2j − 1 = −4 − 2j. Dividing by jπ gives a₁ = (−2 + 4j)/π. Since the signal is real, a₋₁ is its complex conjugate, (−2 − 4j)/π.</p></div><div class="experiment"><label for="harmonic">Try a harmonic k</label><input id="harmonic" type="range" min="-6" max="6" value="1"><output id="harmonicOut" for="harmonic"></output></div><div class="experiment"><label for="termsN">Rebuild one period · harmonic pairs N</label><input id="termsN" type="range" min="0" max="20" value="3"><figure class="signalplot"><figcaption>From Fourier coefficients back to the waveform</figcaption><svg id="fourierPlot" role="img" aria-label="Exact stepped signal and the Fourier approximation obtained with N positive and N negative harmonics." viewBox="0 0 650 222"></svg></figure><output id="termsText" for="termsN"></output><p class="tracekey"><b>Dashed green</b> is the original signal. <em>Solid orange</em> is the sum. At N = 0 the line is flat because the average is zero. Set N = 1, then increase it. Each pair adds a real oscillation, 2 Re(aₖe<sup>jkΩ₀t</sup>), and the flat portions take shape. Near a jump, the finite sum has ripples.</p></div></div></details></section>
+<section class="chapter" data-q="5" hidden><div class="heading"><h2>Q5 · Frequency response</h2><p>The system satisfies y(t) + (1/a)y′(t) = x(t) − ax′(t). The equation requires a real a ≠ 0 because it contains 1/a.</p></div><section class="spatial" id="spatial5" aria-label="Question 5 interactive 3D model"><div class="spatialhead"><h3>Frequency response in the complex plane</h3><span>3D model</span></div><p>Slide Ω to move the spoke. In its fixed-frequency plane the spoke length is the gain, and the angle from the positive real axis is the phase. Look along the frequency axis to see the complex-plane view.</p>
+ <svg class="viewport" viewBox="0 0 660 370" tabindex="0" role="img" aria-label="Frequency response in the complex plane. Rotate with arrow keys or drag."></svg><p class="spatialkey">Green curve · H at each frequency. Amber spoke · H at the selected frequency.</p>
+ <div class="spaceControls"><button type="button" class="altCamera">Look along Ω axis</button><button type="button" class="resetCamera">Reset view</button><small>Drag to rotate · arrow keys when focused</small></div>
+ <div class="coord"><label for="modelA">Parameter a</label><select class="coefficient" id="modelA"><option>1</option><option>2</option><option>0.5</option><option>-1</option><option>-2</option></select><label for="coordinate5">Angular frequency Ω (rad/s)</label><input type="range" class="coordinate" id="coordinate5" min="-4" max="4" step=".25" value="1"></div><output for="coordinate5 modelA"></output></section>
+<details open><summary>(a) Find H(jΩ)</summary><div class="working"><h3>Replace each derivative in the Fourier domain</h3><p>A time derivative multiplies the Fourier transform by jΩ. So y′ becomes jΩY and x′ becomes jΩX. Keep the coefficients and signs from the original equation.</p><div class="eq">Y + (jΩ/a)Y = X − jaΩX</div><p>Factor out Y on the left and X on the right. Then divide to isolate the output-to-input ratio.</p><div class="result">H(jΩ) = Y/X = (1 − jaΩ) / (1 + jΩ/a).</div></div></details>
+<details open><summary>(b) Find magnitude and phase</summary><div class="working"><h3>Magnitude</h3><p>The length of 1 + jb is √(1 + b²). Take the length of each complex number, then divide.</p><div class="result">|H(jΩ)| = √[(1 + a²Ω²) / (1 + Ω²/a²)].</div><h3>Phase</h3><p>The two complex numbers each have real part 1, so their angles are given directly by arctan(imaginary part). For a quotient, subtract the denominator’s angle from the numerator’s angle.</p><div class="result">∠H(jΩ) = −arctan(aΩ) − arctan(Ω/a) radians.</div><p>Check Ω = 0: the derivatives contribute zero, giving H(0) = 1, magnitude 1 and phase 0.</p>
+<div class="teaching"><h3>What does H do to a sinusoid?</h3><p>Try a = 1 and Ω = 1. The numerator 1 − j has length √2 and angle −45°. The denominator 1 + j has length √2 and angle +45°. The ratio has length 1 and angle −90°.</p><div class="eq">H(j) = (1 − j)/(1 + j) = −j. A sinusoidal input cos(t) gives cos(t − π/2) = sin(t) in sinusoidal steady state.</div><p>Keep a = 1 and slide Ω. The magnitude stays at 1 because numerator and denominator have equal lengths. Switch to a = 2 to see why that equality depends on a.</p></div><div class="experiment"><label for="paramA">Choose a</label><select id="paramA"><option>−2</option><option>−1</option><option>−0.5</option><option>0.5</option><option selected>1</option><option>2</option></select><label for="freq">Choose Ω (rad/s)</label><input type="range" id="freq" min="-4" max="4" step=".25" value="1"><output id="freqOut" for="paramA freq"></output><div class="plots2"><figure class="signalplot"><figcaption>Amplitude multiplier</figcaption><svg id="magPlot" role="img" aria-label="Magnitude response over positive and negative angular frequencies." viewBox="0 0 650 222"></svg></figure><figure class="signalplot"><figcaption>Phase shift</figcaption><svg id="phasePlot" role="img" aria-label="Frequency response phase in degrees, marked at the chosen angular frequency." viewBox="0 0 650 222"></svg></figure></div><p class="tracekey">The <em>orange markers</em> use the same Ω. For a unit-amplitude input cosine, the left graph gives the output amplitude and the right gives the angle added to Ωt.</p></div></div></details></section>
+<section class="chapter" data-q="6" hidden><div class="heading"><h2>Q6 · A left-sided impulse response</h2><p>h(t) = e<sup>t</sup>u(−t). The step u(−t) selects t ≤ 0, so the exponential approaches zero as t goes farther into the past.</p></div><section class="spatial" id="spatial6" aria-label="Question 6 interactive 3D model"><div class="spatialhead"><h3>Slice the convolution integral</h3><span>3D model</span></div><p>Fix t with the slider, then scan across τ. The slice rises above zero only where t ≤ τ ≤ 0. The area under this one slice gives a single output value y(t).</p>
+ <svg class="viewport" viewBox="0 0 660 370" tabindex="0" role="img" aria-label="Slice the convolution integral. Rotate with arrow keys or drag."></svg><p class="spatialkey">Green surface · integrand. Amber slice · area integrated at the selected t.</p>
+ <div class="spaceControls"><button type="button" class="altCamera">View from above</button><button type="button" class="resetCamera">Reset view</button><small>Drag to rotate · arrow keys when focused</small></div>
+ <div class="coord"><label for="coordinate6">Output time t</label><input type="range" class="coordinate" id="coordinate6" min="-4" max="2" step=".25" value="-1"></div><output for="coordinate6"></output></section>
+<details open><summary>(a) Test causality</summary><div class="working"><p>A causal LTI system must have h(t) = 0 for every t &lt; 0. Try t = −1. The step is u(1) = 1, so h(−1) = e<sup>−1</sup>, which is nonzero.</p><div class="result">The system is noncausal.</div></div></details>
+<details><summary>(b) Test stability</summary><div class="working"><p>For BIBO stability, integrate |h(t)| over all time. Only the negative-time part contributes. Its magnitude equals e<sup>t</sup>.</p><div class="eq">∫<sub>−∞</sub><sup>0</sup> e<sup>t</sup> dt = [e<sup>t</sup>]<sub>−∞</sub><sup>0</sup> = 1 − 0 = 1.</div><div class="result">The absolute integral is finite. The system is BIBO stable.</div></div></details>
+<details><summary>(c) Find the differential equation</summary><div class="working"><p>Transform h(t). Multiply by e<sup>−jΩt</sup> and integrate from −∞ to 0. Combining the exponentials gives e<sup>(1−jΩ)t</sup>.</p><div class="eq">H(jΩ) = [e<sup>(1−jΩ)t</sup> / (1 − jΩ)]<sub>−∞</sub><sup>0</sup> = 1 / (1 − jΩ)</div><p>Use Y = HX and multiply by the denominator: (1 − jΩ)Y = X. The term jΩY transforms back to the derivative of y.</p><p>To check the sign of the derivative, differentiate h(t) directly in the distribution sense. Away from zero, h′ = h. At zero the height drops from 1 to 0, which contributes −δ(t) to h′. Hence h − h′ = δ(t). Convolving both sides with x gives y − y′ = x.</p><div class="result">y(t) − dy(t)/dt = x(t).</div></div></details>
+<details open><summary>(d) Find the output for x(t) = u(−t)</summary><div class="working"><h3>Find where the two factors overlap</h3><p>Write y(t) = ∫ h(τ)x(t − τ) dτ. In this integral, t is the time where you want the answer. The integration variable τ moves through the possible overlaps.</p><div class="eq">h(τ) is active for τ ≤ 0.<br>x(t − τ) = u(τ − t) is active for τ ≥ t.</div><p>For t &lt; 0, the overlap runs from t to 0. For t &gt; 0, no number τ can satisfy both conditions. At t = 0 the overlap has zero width.</p><div class="eq">For t &lt; 0: y(t) = ∫<sub>t</sub><sup>0</sup> e<sup>τ</sup> dτ = e⁰ − e<sup>t</sup> = 1 − e<sup>t</sup>.</div>
+<div class="result">y(t) = 1 − e<sup>t</sup> for t &lt; 0, and 0 for t ≥ 0.</div><div class="experiment"><label for="overlap">Choose output time t</label><input type="range" id="overlap" min="-4" max="2" step=".25" value="-1"><div class="plots2"><figure class="signalplot"><figcaption>Find the overlap on the τ-axis</figcaption><svg id="overlapPlot" role="img" aria-label="Shaded integral of the exponential where the moving step is one, between t and zero when t is negative." viewBox="0 0 650 222"></svg></figure><figure class="signalplot"><figcaption>Read the result on the t-axis</figcaption><svg id="outputPlot" role="img" aria-label="Output value 1 − exp(t) before time zero, then zero, with a marker at the chosen time." viewBox="0 0 650 222"></svg></figure></div><p class="tracekey"><b>Green</b> is h(τ), and the <strong>dashed blue step</strong> is x(t − τ). The shaded area on the left becomes the height of the <em>orange point</em> on the right.</p><output id="overlapOut" for="overlap"></output></div><div class="teaching"><h3>Try three times</h3><p><b>t = −1.</b> The blue step is on from τ = −1 onward. The exponential ends at τ = 0. The shared area is ∫₋₁⁰ e<sup>τ</sup>dτ = 1 − e<sup>−1</sup> ≈ 0.632.</p><p><b>t = 0.</b> The factors touch at a single point. It has zero width, so the integral is zero.</p><p><b>t = 1.</b> The step starts at τ = 1, after the exponential has ended. Their product is zero for every τ.</p></div></div></details></section>
+</main><script>
+'use strict';
+const lessons=[
+ {tab:'Unit step',title:'The unit step',formula:'u(t) jumps from 0 to 1 at t = 0.',label:'u(t)',domain:[-2,2],start:0,edges:[0],jumps:[-0.05,0,0.05],prompt:'At t = −0.05, just before the switch, what is u(t)?',answer:0,why:'−0.05 is below zero, so the step is still off.'},
+ {tab:'Original pulse',title:'Build the pulse',formula:'x(t) = u(t − 2) − u(t − 1)',label:'x(t)',domain:[-1,4],start:1,edges:[1,2],jumps:[0.95,1,1.5,2],prompt:'Exactly at t = 2, what is x(t)?',answer:0,why:'Both steps are on at t = 2, so 1 − 1 = 0.'},
+ {tab:'Reversed pulse',title:'Reverse and compress',formula:'g(t) = −2x(−2t)',label:'g(t)',domain:[-2,1],start:-0.75,edges:[-1,-0.5],jumps:[-1,-0.75,-0.5,-0.45],prompt:'At the right edge, t = −0.5, what is g(t)?',answer:2,why:'The inner time is 1. Since x(1) = −1, the output is −2 × (−1) = 2.'},
+ {tab:'Shifted pulse',title:'Stretch and shift',formula:'h(t) = x(0.5t + 3)',label:'h(t)',domain:[-6,0],start:-3,edges:[-4,-2],jumps:[-4,-3,-2,-1.95],prompt:'At the left edge, t = −4, what is h(t)?',answer:-1,why:'The inner time is 1. That is the included edge of x, so h(−4) = −1.'}
+];
+const $=sel=>document.querySelector(sel);
+const u=s=>s>=0?1:0;
+const fmt=n=>String(Number(n.toFixed(3))).replace('-','−');
+const clean=n=>Math.round(n*10000)/10000;
+function sample(i,t){
+ const s=clean(i===2?-2*t:i===3?0.5*t+3:t);
+ const first=u(s-2),second=u(s-1),pulse=first-second;
+ return {s,first,second,pulse,value:i===0?u(t):i===2?-2*pulse:pulse};
+}
+const walkthroughs = [
+ [
+  [-0.05,'Start just before zero','t = −0.05  ⇒  u(t) = 0','Think of a switch scheduled to turn on at zero. At this time, the switch is still off.'],
+  [0,'Land on zero','t = 0  ⇒  u(0) = 1','This exercise uses the value 1 at the instant the step turns on. On the graph, the filled dot marks the value you take.'],
+  [0.05,'Move just past zero','t = 0.05  ⇒  u(t) = 1','The switch stays on. In the next example, the input to each switch is t minus a number, so each one turns on at a different time.']
+ ],
+ [
+  [0.5,'Find the two switching times','t − 1 = 0  ⇒  t = 1     ·     t − 2 = 0  ⇒  t = 2','A step turns on when its input reaches zero. At the marker t = 0.5, both inputs are still negative, so x = 0 − 0 = 0.'],
+  [1,'Find which step turns on first','x(1) = u(−1) − u(0) = 0 − 1 = −1','At t = 1, the second step switches on. It is the term being subtracted. That minus sign makes the pulse point down.'],
+  [1.5,'Try a point between the edges','x(1.5) = u(−0.5) − u(0.5) = −1','The first step is still off and the second is on. Their values stay the same all the way up to the instant before t = 2.'],
+  [2,'Close the pulse','x(2) = u(0) − u(1) = 1 − 1 = 0','Both steps are now on and stay on. Put the three time ranges together: x(t) is −1 for 1 ≤ t < 2, and zero everywhere else.']
+ ],
+ [
+  [-1,'Put the new input inside the old interval','1 ≤ −2t < 2','The original x is −1 whenever its input is at least 1 and less than 2. For g, that input is −2t. At the marker t = −1 it equals 2, the excluded edge.'],
+  [-0.5,'Divide each part by −2','−0.5 ≥ t > −1','Dividing by a negative number reverses both signs. Read the result from left to right on the time axis: −1 < t ≤ −0.5. At the marker, −2t = 1, the included edge.'],
+  [-0.75,'Work out the height','g(−0.75) = −2 × x(1.5) = −2 × (−1) = 2','Pick a time between the new edges. The inside gives 1.5, which is in the original pulse. Then the outside factor turns its height from −1 to +2.'],
+  [0,'Check outside the interval','g(0) = −2 × x(0) = 0','Sketch a pulse of height 2 for −1 < t ≤ −0.5, and zero elsewhere. Its width is half of the original width.']
+ ],
+ [
+  [-4,'Locate the included edge','0.5t + 3 = 1  ⇒  0.5t = −2  ⇒  t = −4','The original pulse begins when the input to x is 1. At t = −4 the new input is exactly 1, so h(−4) = x(1) = −1.'],
+  [-2,'Locate the excluded edge','0.5t + 3 = 2  ⇒  0.5t = −1  ⇒  t = −2','The original pulse ends when the input reaches 2. At t = −2, h(−2) = x(2) = 0.'],
+  [-3,'Solve for every time in between','1 ≤ 0.5t + 3 < 2  ⇒  −2 ≤ 0.5t < −1  ⇒  −4 ≤ t < −2','Subtract 3 throughout, then divide by positive 0.5. The signs keep their directions. The marker t = −3 sits inside this interval.'],
+  [-3,'Read off the height','h(−3) = x(0.5 × (−3) + 3) = x(1.5) = −1','There is no multiplier outside x, so the height stays −1. Sketch that height from −4 up to (but excluding) −2, and zero everywhere else.']
+ ]
+];
+let stepIndex=0;
+function showStep(index){
+ const steps=walkthroughs[lesson];
+ stepIndex=index;
+ const [time,title,equation,explanation]=steps[index];
+ $('#guideTitle').textContent=title;
+ $('#position').textContent='Step '+(index+1)+' of '+steps.length;
+ $('#equation').textContent=equation;
+ $('#explain').textContent=explanation;
+ $('#back').disabled=index===0;
+ $('#forward').textContent=index<steps.length-1?'Next step →':lesson<lessons.length-1?'Next signal →':'Start again';
+ $('#time').value=time;
+ render();
+}
+$('#back').onclick=()=>{if(stepIndex>0)showStep(stepIndex-1)};
+$('#forward').onclick=()=>{
+ if(stepIndex+1<walkthroughs[lesson].length)showStep(stepIndex+1);
+ else choose((lesson+1)%lessons.length);
+};
+
+let lesson=0;
+function button(label,action){const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=action;return b}
+lessons.forEach((l,i)=>$('.tabs').append(button(l.tab,()=>choose(i))));
+function choose(i){
+ lesson=i;const l=lessons[i],time=$('#time');
+ [...$('.tabs').children].forEach((b,j)=>b.setAttribute('aria-pressed',j===i));
+ $('#plotTitle').textContent=l.title;$('#formula').textContent=l.formula;
+ time.min=l.domain[0];time.max=l.domain[1];time.value=l.start;
+ $('.jumps').replaceChildren(...l.jumps.map(t=>button('t = '+fmt(t),()=>{time.value=t;render()})));
+ $('#prompt').textContent=l.prompt;$('.feedback').textContent='';
+ $('.answers').replaceChildren(...[-1,0,1,2].map(v=>button(fmt(v),()=>{
+  [...$('.answers').children].forEach(b=>b.setAttribute('aria-pressed',b.textContent===fmt(v)));
+  const right=v===l.answer;
+  $('.feedback').classList.toggle('retry',!right);
+  $('.feedback').textContent=(right?'Correct. ':'Try again. ')+l.why;
+ })));showStep(0);
+}
+function graph(l,t,value){
+ const [lo,hi]=l.domain;const left=41,right=582;
+ const X=t=>left+(t-lo)/(hi-lo)*(right-left),Y=a=>140-49*a;
+ let m='';
+ function line(x1,y1,x2,y2,color,width=1,dash=''){m+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+color+'" stroke-width="'+width+'" stroke-dasharray="'+dash+'"/>'}
+ function circle(x,y,r,fill,stroke,w=2){m+='<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+w+'"/>'}
+ function txt(x,y,s,anchor='middle'){m+='<text x="'+x+'" y="'+y+'" fill="#4e6664" font-family="Arial,sans-serif" font-size="13" text-anchor="'+anchor+'">'+s+'</text>'}
+ const tick=hi-lo<=3?0.5:1;
+ for(let k=lo;k<=hi;k+=tick){line(X(k),25,X(k),204,'#dce4dc');txt(X(k),223,fmt(k))}
+ for(let k=-1;k<=2;k++){line(left,Y(k),right,Y(k),k===0?'#879a91':'#dce4dc');txt(left-12,Y(k)+4,fmt(k),'end')}
+ txt(right,238,'t','end');
+ const ends=[lo,...l.edges,hi];
+ for(let j=1;j<ends.length;j++){const a=ends[j-1],b=ends[j];const y=Y(sample(lesson,(a+b)/2).value);line(X(a),y,X(b),y,'#006b58',3.6)}
+ for(const e of l.edges){const exact=sample(lesson,e).value;const other=[sample(lesson,e-.001).value,sample(lesson,e+.001).value].find(v=>v!==exact);circle(X(e),Y(other),5,'#fffef8','#006b58');circle(X(e),Y(exact),5,'#006b58','#006b58')}
+ line(X(t),22,X(t),204,'#a4421c',1.5,'4 4');circle(X(t),Y(value),9,'none','#a4421c',2.5);
+ $('#plot').innerHTML=m;$('#plot').setAttribute('aria-label',l.formula+' At t = '+fmt(t)+', the output is '+fmt(value)+'.');
+}
+function render(){
+ const l=lessons[lesson],t=Number($('#time').value),{s,first,second,pulse,value}=sample(lesson,t);
+ $('#clock').textContent='t = '+fmt(t);graph(l,t,value);
+ let rows,why;
+ if(lesson===0){
+ rows=[['Time', 't = '+fmt(t)],['Step value','u('+fmt(t)+') = '+fmt(value)]];
+ why=t===0?'Exactly at zero, the filled dot is at 1. That is what u(0) = 1 means.':t<0?'You are to the left of zero. The switch is off.':'You are to the right of zero. The switch is on.';
+ }else{
+ rows=[['Input to x',lesson===2?'s = −2 × ('+fmt(t)+') = '+fmt(s):lesson===3?'s = 0.5 × ('+fmt(t)+') + 3 = '+fmt(s):'s = t = '+fmt(s)],
+ ['First step · u(s − 2)','u('+fmt(clean(s-2))+') = '+first],
+ ['Second step · u(s − 1)','u('+fmt(clean(s-1))+') = '+second],
+ ['Subtract the steps','x('+fmt(s)+') = '+first+' − '+second+' = '+fmt(pulse)]];
+ if(lesson===2)rows.push(['Multiply the height','g('+fmt(t)+') = −2 × ('+fmt(pulse)+') = '+fmt(value)]);
+ if(lesson===3)rows.push(['Read the same height','h('+fmt(t)+') = x('+fmt(s)+') = '+fmt(value)]);
+ why=[null,'The second step turns on at 1. The first catches up at 2. The pulse is −1 for 1 ≤ t < 2.','As t increases, −2t runs backwards. The pulse is 2 for −1 < t ≤ −0.5.','The inner time moves at half speed. It reaches 1 at t = −4 and 2 at t = −2, so the pulse is −1 for −4 ≤ t < −2.'][lesson];
+ }
+ $('.steps').replaceChildren(...rows.map(([name,val])=>{const li=document.createElement('li'),sm=document.createElement('small'),b=document.createElement('strong');sm.textContent=name;b.textContent=val;li.append(sm,b);return li}));
+ $('.reason').textContent=why;
+}
+$('#time').addEventListener('input',render);
+$('#plot').addEventListener('click',e=>{const svg=$('#plot'),pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const x=pt.matrixTransform(svg.getScreenCTM().inverse()).x;
+ const [a,b]=lessons[lesson].domain;$('#time').value=Math.round((a+Math.max(0,Math.min(1,(x-41)/541))*(b-a))*20)/20;render()});
+choose(0);
+const chapters = [...document.querySelectorAll('.chapter')];
+const questionButtons = [...document.querySelectorAll('#questions button')];
+function openQuestion(number) {
+ chapters.forEach((chapter,i)=>chapter.hidden=i!==number-1);
+ questionButtons.forEach((b,i)=>b.setAttribute('aria-pressed',i===number-1));
+}
+questionButtons.forEach((b,i)=>b.onclick=()=>openQuestion(i+1));
+function recurrence(n) { return n < -3 ? 0 : 1 - (-2)**(n+4); }
+function convolutionAt(n) {
+ const xs=[1,-1,3,-3], hs=[1,1,-2], terms=[];
+ let total=0;
+ xs.forEach((x,i)=>{
+  const k=i-1,m=n-k;
+  if(m < -2 || m > 0)return;
+  const h=hs[m+2];terms.push('x['+k+'] × h['+m+'] = ('+x+') × ('+h+') = '+x*h);total+=x*h;
+ });
+ return {terms,total};
+}
+function coefficient(k){
+ if(k===0)return [0,0];
+ const angle=k*Math.PI/2;
+ return [-2*Math.sin(angle)/(k*Math.PI),(3-2*Math.cos(angle)-(-1)**k)/(k*Math.PI)];
+}
+function experiment(id, renderValue, outputId) {
+ const control=document.getElementById(id),output=document.getElementById(outputId);
+ function update(){output.textContent=renderValue(Number(control.value))}
+ control.addEventListener('input',update); update();
+}
+experiment('recN',n=>{
+ const step=n>=-3?1:0;
+ return 'n = '+n+'   ·   u[n + 3] = '+step+'\ny['+n+'] = 3 × '+step+' − 2 × ('+recurrence(n-1)+') = '+recurrence(n);
+},'recOut');
+experiment('convN',n=>{
+ const {terms,total}=convolutionAt(n);
+ return 'n = '+n+'\n'+(terms.length?terms.join('\n'):'No overlapping pair.')+'\ny['+n+'] = '+total;
+},'convOut');
+experiment('harmonic',k=>{
+ if(k===0)return 'k = 0   ·   Use the mean: a₀ = 0.';
+ const [re,im]=coefficient(k);
+ return 'k = '+k+'   ·   aₖ ≈ '+fmt(re)+' '+(im < -0.00001?'−':'+')+' j'+fmt(Math.abs(im));
+},'harmonicOut');
+function frequencyReadout(){
+ const a=Number($('#paramA').value.replace('−','-')),w=Number($('#freq').value);
+ const mag=Math.hypot(1,a*w)/Math.hypot(1,w/a);
+ const phase=-Math.atan(a*w)-Math.atan(w/a);
+ $('#freqOut').textContent='a = '+fmt(a)+'   ·   Ω = '+fmt(w)+' rad/s\nMagnitude ≈ '+fmt(mag)+'   ·   Phase ≈ '+fmt(phase)+' rad ('+fmt(phase*180/Math.PI)+'°)';
+}
+$('#paramA').addEventListener('change',frequencyReadout);$('#freq').addEventListener('input',frequencyReadout);frequencyReadout();
+experiment('overlap',t=>t<0?'t = '+fmt(t)+'   ·   '+fmt(t)+' ≤ τ ≤ 0\ny(t) = 1 − exp('+fmt(t)+') ≈ '+fmt(1-Math.exp(t)):
+ 't = '+fmt(t)+'   ·   '+(t===0?'Only the point τ = 0 remains; its width is zero.':'There is no overlap.')+'\ny(t) = 0','overlapOut');
+// All plots use signal coordinates. SVG handles scaling when the page width changes.
+const inkGreen = '#006b58', orange = '#ab481e', blue = '#416ba0';
+function makePlot(id, cfg) {
+ const svg = document.getElementById(id);
+ const {xlim, ylim, xticks, yticks, xlabel, ylabel} = cfg;
+ const left = 53, right = 628, top = 27, bottom = 177;
+ const px = x => left + (x-xlim[0])/(xlim[1]-xlim[0])*(right-left);
+ const py = y => bottom - (y-ylim[0])/(ylim[1]-ylim[0])*(bottom-top);
+ const content = [];
+ function path(points,color,width=2.6,dashed=false,fill='none') {
+  if(!points.length)return;
+  const d=points.map(([x,y],i)=>(i?'L':'M')+px(x).toFixed(2)+' '+py(y).toFixed(2)).join(' ');
+  content.push('<path d="'+d+'" fill="'+fill+'" stroke="'+color+'" stroke-width="'+width+'" stroke-linejoin="round" stroke-dasharray="'+(dashed?'6 4':'none')+'"/>');
+ }
+ function dot(x,y,color,r=4){content.push('<circle cx="'+px(x)+'" cy="'+py(y)+'" r="'+r+'" fill="'+color+'" stroke="#fffef8" stroke-width="1.2"/>')}
+ function label(x,y,value,align='middle'){
+  content.push('<text x="'+x+'" y="'+y+'" text-anchor="'+align+'">'+value+'</text>');
+ }
+ for(const x of xticks){path([[x,ylim[0]],[x,ylim[1]]],'#dfe5dc',1);label(px(x),197,fmt(x))}
+ for(const y of yticks){path([[xlim[0],y],[xlim[1],y]],y===0?'#809389':'#dfe5dc',y===0?1.5:1);label(left-8,py(y)+4,fmt(y),'end')}
+ label(left,16,ylabel,'start');label(right,215,xlabel,'end');
+ function curve(fn,a=xlim[0],b=xlim[1],count=220){return Array.from({length:count+1},(_,i)=>{const x=a+(b-a)*i/count;return [x,fn(x)]})}
+ function area(points,color){if(points.length)path([[points[0][0],0],...points,[points[points.length-1][0],0]],'none',0,false,color)}
+ function stem(x,y,color){path([[x,0],[x,y]],color,3);dot(x,y,color)}
+ return {path,dot,curve,area,stem,finish(){svg.innerHTML=content.join('')}};
+}
+const numberRange=(lo,hi)=>Array.from({length:hi-lo+1},(_,i)=>lo+i);
+function squareTrace(parts,lo,hi){
+ const points=[[lo,0]];
+ let end=lo,prev=0;
+ for(const [a,b,y] of parts){
+  if(a>end)points.push([end,0],[a,0]);else points.push([a,prev]);
+  points.push([a,y],[b,y]);end=b;prev=y;
+ }
+ points.push([end,0],[hi,0]);return points;
+}
+function drawJump(){
+ const count=Number($('#jumpCount').value),times=[1,2,3,4],jumps=[1,1,-1,-1];
+ const plot=makePlot('jumpPlot',{xlim:[0,5],ylim:[-.25,2.5],xticks:numberRange(0,5),yticks:[0,1,2],xlabel:'time t',ylabel:'running sum'});
+ const points=[[0,0]];let height=0;
+ for(let i=0;i<count;i++){points.push([times[i],height]);height+=jumps[i];points.push([times[i],height])}
+ points.push([5,height]);plot.path(points,inkGreen);if(count)plot.dot(times[count-1],height,orange,5);plot.finish();
+ const terms=['+u(t − 1)','+u(t − 2)','−u(t − 3)','−u(t − 4)'];
+ $('#jumpText').textContent=count===0?'No steps yet. The graph stays at zero.':terms.slice(0,count).join(' ').replace(/^\+/,'')+'  ·  At t = '+count+' the height becomes '+height+'.';
+}
+function drawEnergy(){
+ const name=$('#energyChoice').value;
+ const options={x:[[1,2,-1]],y:[[1,2,1],[2,3,2],[3,4,1]],g:[[-1,-.5,2]],h:[[-4,-2,-1]]};
+ const parts=options[name],lo=parts[0][0]-.5,hi=parts[parts.length-1][1]+.5;
+ const edges=[...new Set(parts.flatMap(([a,b])=>[a,b]))];
+ const plot=makePlot('energyPlot',{xlim:[lo,hi],ylim:[-.25,4.6],xticks:edges,yticks:[0,1,2,3,4],xlabel:'time t',ylabel:'squared height'});
+ const squared=parts.map(([a,b,y])=>[a,b,y*y]);let total=0;
+ for(const [a,b,y] of squared){plot.area([[a,y],[b,y]],'#c2e0d2');total+=(b-a)*y}
+ plot.path(squareTrace(squared,lo,hi),inkGreen);plot.finish();
+ $('#energyText').textContent='E = '+squared.map(([a,b,y])=>fmt(y)+' × '+fmt(b-a)).join(' + ')+' = '+fmt(total);
+}
+function drawRecurrence(){
+ const n=Number($('#recN').value),last=Math.max(-1,n),indices=numberRange(-5,last);
+ const bound=Math.max(4,...indices.map(i=>Math.abs(recurrence(i))));
+ const plot=makePlot('recPlot',{xlim:[-5.5,last+.5],ylim:[-bound*1.17,bound*1.17],xticks:indices,yticks:[-bound,0,bound],xlabel:'sample n',ylabel:'output y[n]'});
+ for(const i of indices){if(i<=n)plot.stem(i,recurrence(i),i===n?orange:inkGreen)}
+ plot.finish();
+}
+function drawConvolution(){
+ const n=Number($('#convN').value);
+ const x=k=>[1,-1,3,-3][k+1]||0;
+ const h=m=>[1,1,-2][m+2]||0;
+ const drawRow=(id,title,vals,range,ticks,color)=>{
+  const p=makePlot(id,{xlim:[-4.5,5.5],ylim:range,xticks:numberRange(-4,5),yticks:ticks,xlabel:'input index k',ylabel:title});
+  for(let k=-4;k<=5;k++)p.stem(k,vals(k),color);
+  p.finish();
+ };
+ drawRow('convX','x[k]',x,[-3.6,3.6],[-3,0,3],inkGreen);
+ drawRow('convH','h[n − k]',k=>h(n-k),[-2.5,1.5],[-2,0,1],blue);
+ drawRow('convProduct','product at each k',k=>x(k)*h(n-k),[-7,7],[-6,0,6],orange);
+}
+function partialSum(t,N){
+ let sum=0;
+ for(let k=1;k<=N;k++){const [re,im]=coefficient(k),phase=k*Math.PI*t/2;sum+=2*(re*Math.cos(phase)-im*Math.sin(phase))}
+ return sum;
+}
+function drawFourier(){
+ const N=Number($('#termsN').value);
+ const plot=makePlot('fourierPlot',{xlim:[0,4],ylim:[-5,3],xticks:[0,1,2,3,4],yticks:[-4,-2,0,2],xlabel:'time t (s)',ylabel:'signal height'});
+ plot.path([[0,-4],[1,-4],[1,0],[2,0],[2,2],[4,2]],inkGreen,2,true);
+ plot.path(plot.curve(t=>partialSum(t,N),0,4,500),orange);plot.finish();
+ $('#termsText').textContent=N===0?'N = 0. Only the average remains: a₀ = 0.':'N = '+N+'  ·  The sum includes k = −'+N+' through +'+N+', with a₀ = 0.';
+}
+function responseAt(a,w){
+ return [Math.hypot(1,a*w)/Math.hypot(1,w/a),(-Math.atan(a*w)-Math.atan(w/a))*180/Math.PI];
+}
+function drawResponse(){
+ const a=Number($('#paramA').value.replace('−','-')),w=Number($('#freq').value);
+ const specs=[['magPlot','magnitude |H|',[-.2,4.2],[0,1,2,3,4]],['phasePlot','phase (degrees)',[-180,180],[-180,-90,0,90,180]]];
+ specs.forEach(([id,title,ylim,yticks],i)=>{
+  const p=makePlot(id,{xlim:[-4,4],ylim,xticks:[-4,-2,0,2,4],yticks,xlabel:'Ω (rad/s)',ylabel:title});
+  const fn=v=>responseAt(a,v)[i];p.path(p.curve(fn),inkGreen);p.path([[w,ylim[0]],[w,ylim[1]]],orange,1.3,true);p.dot(w,fn(w),orange,5);p.finish();
+ });
+}
+function drawOverlap(){
+ const t=Number($('#overlap').value);
+ const cfg={xlim:[-4.5,2.5],ylim:[-.1,1.25],xticks:[-4,-3,-2,-1,0,1,2],yticks:[0,.5,1]};
+ const p=makePlot('overlapPlot',{...cfg,xlabel:'integration variable τ',ylabel:'height of each factor'});
+ if(t<0)p.area(p.curve(Math.exp,t,0),'#bfdcca');
+ p.path(p.curve(Math.exp,-4.5,0),inkGreen);p.path([[0,0],[2.5,0]],inkGreen);
+ p.path([[-4.5,0],[t,0],[t,1],[2.5,1]],blue,2,true);p.dot(0,1,inkGreen);p.finish();
+ const q=makePlot('outputPlot',{...cfg,xlabel:'output time t',ylabel:'y(t) = overlap area'});
+ const fn=v=>v<0?1-Math.exp(v):0;
+ q.path(q.curve(fn,-4.5,0),orange);q.path([[0,0],[2.5,0]],orange);q.dot(t,fn(t),orange,5);q.finish();
+}
+function connectPlot(control,event,draw){$('#'+control).addEventListener(event,draw);draw()}
+connectPlot('jumpCount','input',drawJump);
+connectPlot('energyChoice','change',drawEnergy);
+connectPlot('recN','input',drawRecurrence);
+connectPlot('convN','input',drawConvolution);
+connectPlot('termsN','input',drawFourier);
+connectPlot('paramA','change',drawResponse);
+connectPlot('freq','input',drawResponse);
+connectPlot('overlap','input',drawOverlap);
+// Orthographic projection of the model coordinates. Only the camera rotates.
+const modelSpecs = [
+ {title:'From pulse height to energy',control:'Signal',options:['x(t)','y(t)','g(t)','h(t)'],start:0,legend:'Green slab · original signal. Amber slab · height squared.',help:'Look at the two time profiles edge-on. Squaring lifts a negative pulse above zero. Both profiles have exactly the same width. The depth separates the two profiles and has no role in the energy calculation.'},
+ {title:'A recurrence in three coordinates',control:'Output index n',min:-4,max:1,step:1,start:-2,legend:'Green path · successive samples. Amber point · selected sample.',help:'Each point records the sample index, previous output and current output. Move one step forward. The old current value becomes the new previous value. The next height then follows from the recurrence.'},
+ {title:'Convolution on an index grid',control:'Output index n = k + m',min:-4,max:3,step:1,start:0,legend:'Amber columns · pairs used at this n. Muted columns · other pairs.',help:'One column is one multiplication, x[k] × h[m]. Rotate toward the top view to see the diagonal k + m = n. Then tilt down to read the signed heights. Add only the amber columns.'},
+ {title:'One Fourier harmonic in motion',control:'Time t (seconds)',min:0,max:4,step:.05,start:0,legend:'Green helix · complex harmonic. Amber curve · real part on the Im = 0 plane.',help:'Look along the time axis: the rotating tip traces a circle. Look from the side: its real coordinate traces a sinusoid. The conjugate harmonic has the opposite imaginary part, so adding the pair doubles the real part.'},
+ {title:'Frequency response in the complex plane',control:'Angular frequency Ω (rad/s)',min:-4,max:4,step:.25,start:1,legend:'Green curve · H at each frequency. Amber spoke · H at the selected frequency.',help:'Slide Ω to move the spoke. In its fixed-frequency plane the spoke length is the gain, and the angle from the positive real axis is the phase. Look along the frequency axis to see the complex-plane view.'},
+ {title:'Slice the convolution integral',control:'Output time t',min:-4,max:2,step:.25,start:-1,legend:'Green surface · integrand. Amber slice · area integrated at the selected t.',help:'Fix t with the slider, then scan across τ. The slice rises above zero only where t ≤ τ ≤ 0. The area under this one slice gives a single output value y(t).'}
+];
+const views3d=modelSpecs.map(()=>({az:-0.65,el:0.47}));
+const modelGreen='#16796c', modelAmber='#d26729', modelBlue='#3f789d';
+function spaceScene(svg, circular=false){
+ const things=[];
+ const limits=[[-1,1],[-1,1],[-1,1]];
+ const ranges=(...v)=>v.forEach((r,i)=>limits[i]=r);
+ function add(kind,points,props){things.push({kind,points,...props})}
+ function line(a,b,color,width=1.5,dash=false){add('line',[a,b],{color,width,dash})}
+ function face(points,color,opacity=1){add('face',points,{color,opacity})}
+ function dot(p,color,r=5){add('dot',[p],{color,r})}
+ function label(p,value,color='#284444'){add('text',[p],{value,color})}
+ function axes(names,ticks){
+  const base=limits.map(([a])=>a);
+  // Draw horizontal axes through z = 0, so signed heights have a visible baseline.
+  base[2]=0;
+  for(const x of ticks[0])line([x,limits[1][0],0],[x,limits[1][1],0],'#ccd9cd',.85,true);
+  for(const y of ticks[1])line([limits[0][0],y,0],[limits[0][1],y,0],'#ccd9cd',.85,true);
+  for(let i=0;i<3;i++){
+   const start=base.slice(),end=base.slice();start[i]=limits[i][0];end[i]=limits[i][1];
+   line(start,end,'#819b97',1.3);
+   const where=end.slice();where[i]+=(limits[i][1]-limits[i][0])*.15;label(where,names[i]);
+   for(const v of ticks[i]){const at=base.slice();at[i]=v;dot(at,'#91a5a1',1.8);const t=at.slice();
+    if(i===2)t[0]-=(limits[0][1]-limits[0][0])*.055;
+    else t[2]-=(limits[2][1]-limits[2][0])*.08;
+    label(t,fmt(v),'#637e78')}
+  }
+ }
+ function bar(x0,x1,y0,y1,height,color){
+  const A=[x0,y0,0],B=[x1,y0,0],C=[x1,y1,0],D=[x0,y1,0];
+  const top=[A,B,C,D].map(([x,y])=>[x,y,height]);
+  face(top,color,1);
+  for(const [i,j] of [[0,1],[1,2],[2,3],[3,0]]){
+   const floor=[A,B,C,D];face([floor[i],floor[j],top[j],top[i]],color,.78);
+  }
+ }
+ function render(view){
+  const ca=Math.cos(view.az),sa=Math.sin(view.az),ce=Math.cos(view.el),se=Math.sin(view.el);
+  function project(p){
+   const [x,y,z]=p.map((v,i)=>((v-limits[i][0])/(limits[i][1]-limits[i][0])-.5)*(circular?[3.5,2.05,2.05]:[3.5,2.3,1.9])[i]);
+   const depth=sa*x+ca*y;
+   return [330+94*(ca*x-sa*y),176+94*(se*depth-ce*z),ce*depth+se*z];
+  }
+  const fragments=things.map(item=>{
+   const ps=item.points.map(project),depth=ps.reduce((a,p)=>a+p[2],0)/ps.length;
+   const xy=ps.map(p=>p[0].toFixed(2)+','+p[1].toFixed(2)).join(' ');
+   const [x,y]=ps[0];let html='';
+   if(item.kind==='line')html='<polyline points="'+xy+'" fill="none" stroke="'+item.color+'" stroke-width="'+item.width+'" '+(item.dash?'stroke-dasharray="5 4"':'')+'/>';
+   if(item.kind==='face')html='<polygon points="'+xy+'" fill="'+item.color+'" fill-opacity="'+item.opacity+'" stroke="'+item.color+'" stroke-width=".65"/>';
+   if(item.kind==='dot')html='<circle cx="'+x+'" cy="'+y+'" r="'+item.r+'" fill="'+item.color+'" stroke="#fffef8" stroke-width="1"/>';
+   if(item.kind==='text')html='<text x="'+x+'" y="'+y+'" text-anchor="middle" dominant-baseline="middle" fill="'+item.color+'">'+item.value+'</text>';
+   return {depth: item.kind==='text'?100:depth,html};
+  });
+  fragments.sort((a,b)=>a.depth-b.depth);
+  svg.innerHTML=fragments.map(x=>x.html).join('');
+ }
+ return {ranges,line,face,dot,label,axes,bar,render};
+}
+function sampleLine(scene,fn,lo,hi,color,width=2.6,count=70){
+ let prev=fn(lo);
+ for(let i=1;i<=count;i++){const next=fn(lo+(hi-lo)*i/count);scene.line(prev,next,color,width);prev=next}
+}
+function buildSpatial(q,s,v,a){
+ if(q===1){
+  const parts=[[[1,2,-1]],[[1,2,1],[2,3,2],[3,4,1]],[[-1,-.5,2]],[[-4,-2,-1]]][v];
+  const lo=parts[0][0],hi=parts[parts.length-1][1];
+  s.ranges([lo-.4,hi+.4],[0,2],[-1.4,4.3]);
+  s.axes(['t','row','height'],[[lo,hi],[],[-1,1,2,4]]);
+  let energy=0;
+  for(const [l,r,h] of parts){s.bar(l,r,.05,.48,h,modelGreen);s.bar(l,r,1.15,1.58,h*h,modelAmber);energy+=(r-l)*h*h}
+  return ['E = '+parts.map(([l,r,h])=>'('+fmt(h)+')² × '+fmt(r-l)).join(' + ')+' = '+fmt(energy),'Read the time width along t. The amber side profile has area '+fmt(energy)+'.'];
+ }
+ if(q===2){
+  const low=-5,hi=Math.max(-2,v);
+  const scale=Math.max(3,...numberRange(low,hi).flatMap(i=>[Math.abs(recurrence(i-1)),Math.abs(recurrence(i))]));
+  s.ranges([low-.5,hi+.6],[-scale,scale],[-scale,scale]);
+  s.axes(['n','previous','current'],[[low,hi],[-scale,0,scale],[-scale,scale]]);
+  for(let n=low;n<=v;n++){const point=[n,recurrence(n-1),recurrence(n)];
+   if(n>low)s.line([n-1,recurrence(n-2),recurrence(n-1)],point,modelGreen,2.8);
+   s.dot(point,n===v?modelAmber:modelGreen,n===v?6:4)}
+  return ['(n, previous, current) = ('+v+', '+recurrence(v-1)+', '+recurrence(v)+')','y['+v+'] = 3 × '+Number(v>=-3)+' − 2 × ('+recurrence(v-1)+') = '+recurrence(v)+'. The axes rescale as the sequence grows.'];
+ }
+ if(q===3){
+  s.ranges([-1.7,2.7],[-2.6,.65],[-6.5,6.5]);s.axes(['k','m','product'],[[-1,0,1,2],[-2,-1,0],[-6,6]]);
+  const parts=[];
+  [1,-1,3,-3].forEach((x,i)=>[1,1,-2].forEach((h,j)=>{
+   const k=i-1,m=j-2,selected=k+m===v;
+   s.bar(k-.18,k+.18,m-.18,m+.18,x*h,selected?modelAmber:'#a1bbb1');
+   if(selected){parts.push(x*h);s.label([k,m,x*h+Math.sign(x*h)*.6],fmt(x*h),'#853813')}
+  }));
+  return ['y['+v+'] = '+(parts.length?parts.map(z=>'('+fmt(z)+')').join(' + '):'0')+(parts.length?' = '+convolutionAt(v).total:''),parts.length?'Each highlighted cell satisfies k + m = '+v+'.':'There is no cell with this index sum.'];
+ }
+ if(q===4){
+  const [re,im]=coefficient(1),radius=Math.hypot(re,im);
+  s.ranges([0,4],[-radius*1.25,radius*1.25],[-radius*1.25,radius*1.25]);
+  s.axes(['t','Im','Re'],[[0,1,2,3,4],[],[-1,1]]);
+  function harmonic(t){const w=t*Math.PI/2;return [t,re*Math.sin(w)+im*Math.cos(w),re*Math.cos(w)-im*Math.sin(w)]}
+  const p=harmonic(v),flat=[v,0,p[2]];
+  sampleLine(s,harmonic,0,4,modelGreen);
+  sampleLine(s,t=>[t,0,harmonic(t)[2]],0,4,modelAmber);
+  s.line([v,0,0],p,modelGreen,3);s.line(p,flat,modelBlue,1.7,true);s.dot(p,modelGreen,6);s.dot(flat,modelAmber,5);
+  return ['t = '+fmt(v)+' s   ·   Re = '+fmt(p[2])+'   ·   Im = '+fmt(p[1]),'One term is a₁ exp(jπt/2), where a₁ = (−2 + 4j)/π. The k = ±1 pair contributes 2 × Re = '+fmt(2*p[2])+'.'];
+ }
+ if(q===5){
+  function point(w){
+   const d=1+(w/a)**2;
+   return [w,(1-w*w)/d,-w*(a+1/a)/d];
+  }
+  const bound=Math.max(1,...numberRange(-32,32).flatMap(i=>point(i/8).slice(1).map(Math.abs)))*1.12;
+  s.ranges([-4,4],[-bound,bound],[-bound,bound]);s.axes(['Ω','Re','Im'],[[-4,0,4],[],[]]);
+  sampleLine(s,point,-4,4,modelGreen,3.2);
+  s.line([-4,0,0],[4,0,0],'#8ca3a2',1.5,true);
+  s.line([v,0,0],[v,bound,0],modelBlue,1.4,true);
+  const p=point(v);s.line([v,0,0],p,modelAmber,3);s.dot(p,modelAmber,6);
+  const [mag,phase]=responseAt(a,v);
+  return ['H = '+fmt(p[1])+(p[2]<0?' − j':' + j')+fmt(Math.abs(p[2])),'Ω = '+fmt(v)+' rad/s, a = '+fmt(a)+'. Magnitude = '+fmt(mag)+', phase = '+fmt(phase)+'°. The dashed blue ray is the positive real direction.'];
+ }
+ s.ranges([-4,2],[-4,2],[0,1.14]);s.axes(['τ','t','product'],[[-4,-2,0,2],[-4,0,2],[1]]);
+ // At each τ ≤ 0, the overlap surface runs from t = −4 to t = τ.
+ for(let i=0;i<24;i++){
+  const l=-4+i/6,r=l+1/6,hl=Math.exp(l),hr=Math.exp(r);
+  s.face([[l,-4,hl],[r,-4,hr],[r,r,hr],[l,l,hl]],i%2?'#90bdac':'#a5cab9',.85);
+ }
+ for(const t of [-4,-3,-2,-1])sampleLine(s,x=>[x,t,Math.exp(x)],t,0,'#568c79',1,24);
+ s.line([-4,v,0],[2,v,0],modelAmber,2,true);
+ if(v<0){for(let i=0;i<32;i++){const l=v+(0-v)*i/32,r=v+(0-v)*(i+1)/32;
+  s.face([[l,v,0],[r,v,0],[r,v,Math.exp(r)],[l,v,Math.exp(l)]],modelAmber,.62)}
+  sampleLine(s,x=>[x,v,Math.exp(x)],v,0,'#a24417',3);s.line([0,v,0],[0,v,1],modelAmber,2);
+ }
+ return [v<0?'At t = '+fmt(v)+', integrate from τ = '+fmt(v)+' to 0.':'At t = '+fmt(v)+', the slice has zero area.',
+  'y('+fmt(v)+') = '+(v<0?'1 − exp('+fmt(v)+') ≈ '+fmt(1-Math.exp(v)):'0')+'. Only the displayed range of t and τ is drawn.'];
+}
+function installSpatial(index){
+ const q=index+1,spec=modelSpecs[index],panel=$('#spatial'+q);
+ const svg=panel.querySelector('svg'),control=panel.querySelector('.coordinate');
+ const aControl=panel.querySelector('.coefficient'),summary=panel.querySelector('output');
+ const view=views3d[index];let drag=null;
+ function redraw(){
+  const scene=spaceScene(svg,q===4||q===5);
+  const notes=buildSpatial(q,scene,Number(control.value),aControl?Number(aControl.value):1);
+  scene.render(view);
+  const display=notes.join('\n');
+  if(summary.textContent!==display)summary.textContent=display;
+ }
+ function camera(az,el){view.az=az;view.el=Math.max(-1.49,Math.min(1.57,el));redraw()}
+ control.addEventListener(spec.options?'change':'input',redraw);
+ if(aControl)aControl.addEventListener('change',redraw);
+ panel.querySelector('.resetCamera').onclick=()=>camera(-.65,.47);
+ panel.querySelector('.altCamera').onclick=()=>q===4||q===5?camera(Math.PI/2,0):camera(0,Math.PI/2);
+ svg.addEventListener('pointerdown',e=>{
+  if(e.button!==0)return;
+  drag={x:e.clientX,y:e.clientY,az:view.az,el:view.el,id:e.pointerId};
+  svg.setPointerCapture(e.pointerId);
+ });
+ svg.addEventListener('pointermove',e=>{
+  if(!drag||drag.id!==e.pointerId)return;
+  camera(drag.az+(e.clientX-drag.x)*.012,drag.el+(e.clientY-drag.y)*.009);
+ });
+ const stopDrag=e=>{if(drag&&drag.id===e.pointerId)drag=null};
+ for(const event of ['pointerup','pointercancel','lostpointercapture'])svg.addEventListener(event,stopDrag);
+ svg.addEventListener('keydown',e=>{
+  const move={ArrowLeft:[-.12,0],ArrowRight:[.12,0],ArrowUp:[0,.12],ArrowDown:[0,-.12]}[e.key];
+  if(move){e.preventDefault();camera(view.az+move[0],view.el+move[1])}
+ });
+ redraw();
+}
+modelSpecs.forEach((_,i)=>installSpatial(i));
+</script></body></html>
